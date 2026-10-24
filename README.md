@@ -7,4 +7,5 @@ Run instructions for dense training, pruning, and the Pareto sweep are added wit
 ```bash
 uv sync
 uv run pytest tests/test_gradcheck.py
+uv run pytest tests/test_masked.py
 ```
