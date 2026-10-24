@@ -1,8 +1,8 @@
 # Self-pruning network
 
-A from-scratch NumPy reverse-mode autodiff engine and a classifier that removes its own connections during training. scikit-learn is used only to download MNIST. Training, gradients, and pruning are not delegated to a library.
+A from-scratch NumPy reverse-mode autodiff engine and a classifier that removes its own connections during training. Training, gradients, and pruning are not delegated to a library.
 
-Run instructions for dense training, pruning, and the Pareto sweep are added with those milestones.
+MNIST is the official idx split cached by `train/data.py`. scikit-learn is not used for training, models, or gradients.
 
 ```bash
 uv sync
@@ -10,4 +10,5 @@ uv run pytest tests/test_gradcheck.py
 uv run pytest tests/test_masked.py
 uv run pytest tests/test_adam_revival.py
 uv run python -m experiments.train_dense --seed 0
+uv run python -m experiments.train_prune --criterion taylor --sparsity 0.9 --seed 0
 ```

@@ -18,6 +18,11 @@ def iter_batches(images: np.ndarray, labels: np.ndarray, batch_size: int, rng: n
         yield images[index], labels[index]
 
 
+class StepCounter:
+    def __init__(self) -> None:
+        self.value = 0
+
+
 def train_epoch(
     model: MLP,
     optimizer: Adam,
@@ -25,6 +30,10 @@ def train_epoch(
     labels: np.ndarray,
     batch_size: int,
     rng: np.random.Generator,
+    *,
+    clock: StepCounter | None = None,
+    on_backward=None,
+    on_step=None,
 ) -> tuple[float, float]:
     total_loss = 0.0
     correct = 0
@@ -36,7 +45,13 @@ def train_epoch(
         if not np.isfinite(loss.data):
             raise RuntimeError("training loss is not finite")
         loss.backward()
+        if clock is not None:
+            clock.value += 1
+            if on_backward is not None:
+                on_backward(clock.value)
         optimizer.step()
+        if clock is not None and on_step is not None:
+            on_step(clock.value)
         batch_count = batch_labels.shape[0]
         total_loss += float(loss.data) * batch_count
         correct += int(np.sum(np.argmax(logits.data, axis=1) == batch_labels))

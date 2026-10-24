@@ -81,6 +81,21 @@ class Adam:
         slot["v"] = second
         slot["t"] = step
 
+    def constrain(self, param: Tensor) -> None:
+        """Zero the weight and the Adam state wherever the mask is off.
+
+        Called when a connection is pruned, so the next step does not have to
+        decay a moment that should already be gone.
+        """
+        active = self._active(param)
+        if active is None:
+            return
+        slot = self.state.get(id(param))
+        if slot is None:
+            param.data = np.where(active, param.data, 0.0)
+            return
+        self._clear_inactive(param, slot, active)
+
     def _clear_inactive(self, param: Tensor, slot: dict[str, np.ndarray], active: np.ndarray | None) -> None:
         if active is None:
             return
