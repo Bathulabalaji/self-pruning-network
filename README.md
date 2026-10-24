@@ -11,4 +11,5 @@ uv run pytest tests/test_masked.py
 uv run pytest tests/test_adam_revival.py
 uv run python -m experiments.train_dense --seed 0
 uv run python -m experiments.train_prune --criterion taylor --sparsity 0.9 --seed 0
+uv run python -m experiments.measure_cost
 ```

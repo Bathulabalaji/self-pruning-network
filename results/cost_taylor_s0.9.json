@@ -1,0 +1,38 @@
+{
+  "source": "prune_taylor_s0.9_seed0.json",
+  "active_parameters": 10918,
+  "dense_parameters": 109184,
+  "achieved_sparsity": 0.9000036635404455,
+  "note": "dense_times_zero_ms is a BLAS GEMM that multiplies explicit zeros. It is not a sparse speedup. sparse_ms is the gather kernel in prune/sparse.py. tape_ms builds the autodiff graph and is not an inference path.",
+  "batches": [
+    {
+      "batch": 1,
+      "sparse_ms": 1.4708017000278535,
+      "dense_times_zero_ms": 0.19953810005972628,
+      "tape_ms": 0.2424833333255568,
+      "sparse_flops": 21836,
+      "dense_flops": 218368,
+      "sparse_faster_than_dense_gemm": false
+    },
+    {
+      "batch": 128,
+      "sparse_ms": 3.801491933336365,
+      "dense_times_zero_ms": 0.8463583000169214,
+      "tape_ms": 0.9680402666466156,
+      "sparse_flops": 2795008,
+      "dense_flops": 27951104,
+      "sparse_faster_than_dense_gemm": false
+    },
+    {
+      "batch": 1024,
+      "sparse_ms": 40.575244933279464,
+      "dense_times_zero_ms": 3.0909860333243464,
+      "tape_ms": 3.2494541999767534,
+      "sparse_flops": 22360064,
+      "dense_flops": 223608832,
+      "sparse_faster_than_dense_gemm": false
+    }
+  ],
+  "matches_dense_masked_forward": true,
+  "matches_tape_forward": true
+}
