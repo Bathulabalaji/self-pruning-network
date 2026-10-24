@@ -9,4 +9,5 @@ uv sync
 uv run pytest tests/test_gradcheck.py
 uv run pytest tests/test_masked.py
 uv run pytest tests/test_adam_revival.py
+uv run python -m experiments.train_dense --seed 0
 ```
