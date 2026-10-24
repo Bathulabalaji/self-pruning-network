@@ -38,6 +38,7 @@ class Linear:
         self.weight = Tensor(weight, requires_grad=True)
         self.weight.saliency_grad = None
         self.mask = Tensor(np.ones(weight.shape, dtype=np.float64), requires_grad=False)
+        self.weight.mask = self.mask
         self.bias = Tensor(np.zeros(self.out_features), requires_grad=True) if bias else None
 
     def parameters(self) -> list[Tensor]:
@@ -65,6 +66,7 @@ class Linear:
         if not np.all((values == 0.0) | (values == 1.0)):
             raise ValueError("mask entries must be exactly 0 or 1")
         self.mask = Tensor(values, requires_grad=False)
+        self.weight.mask = self.mask
 
     def __call__(self, inputs: Tensor) -> Tensor:
         if not isinstance(inputs, Tensor):
